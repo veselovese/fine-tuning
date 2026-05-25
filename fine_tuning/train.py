@@ -118,6 +118,8 @@ def train(cfg: Config):
     export_to_onnx(cfg, class_names)
 
 def export_to_onnx(cfg: Config, class_names: List[str]):
+    abs_onnx_path = os.path.abspath(cfg.onnx_path)
+    
     # Загружаем лучшую модель
     model = timm.create_model(cfg.model_name, num_classes=cfg.num_classes)
     model.load_state_dict(torch.load(cfg.checkpoint_path))
@@ -131,12 +133,12 @@ def export_to_onnx(cfg: Config, class_names: List[str]):
     torch.onnx.export(
         model, 
         dummy_input, 
-        cfg.onnx_path,
+        abs_onnx_path,
         export_params=True,
         do_constant_folding=True,
         input_names=['input'],
         output_names=['output'],
-        dynamic_axes={'input': {0: 'batch_size'}, 'output': {0: 'batch_size'}}
+        # dynamic_axes={'input': {0: 'batch_size'}, 'output': {0: 'batch_size'}}
     )
     
     # Проверка модели

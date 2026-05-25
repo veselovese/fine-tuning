@@ -50,8 +50,8 @@ interface = gr.Interface(
     fn=predict_image,
     inputs=gr.Image(type="pil"),
     outputs=gr.Label(num_top_classes=3),
-    title="Image Classification ONNX",
-    description="Upload an image to classify it using the fine-tuned model."
+    title="Классификация изображений. ONNX",
+    description="Загрузите изображение, чтобы классифицировать его с помощью fine-tuned модели"
 )
 
 if __name__ == "__main__":
